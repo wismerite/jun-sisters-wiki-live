@@ -10,7 +10,7 @@ variable "default_region" {
 
 variable "name_prefix" {
   type    = string
-  default = "jun_sisters_wiki"
+  default = "jun-sisters-wiki"
 }
 
 variable "env" {
@@ -19,12 +19,30 @@ variable "env" {
   default = "dev"
 }
 
-# variable "env_map" {
-#   type = map(string)
-#   default = {
-#     dev  = "development"
-#     prod = "production"
-#   }
-# }
+# DO is dumb and needs specific strings for a project's "environment"
+#   however, the short env name defined in var.env should be used everywhere else
+variable "env_map" {
+  type = map(string)
+  default = {
+    dev  = "Development"
+    prod = "Production"
+  }
+}
 
-# "db-s-1vcpu-1gb"
+
+variable "modules_version" {
+  type    = string
+  default = "v0.0.1"
+}
+
+
+## unused for now, hoping interpolation in module sources are allowed
+variable "modules_version" {
+  type    = string
+  default = "v0.0.1"
+}
+
+variable "modules_location" {
+  type = string
+  default = "git@github.com:wismerite/jun-sisters-wiki-modules.git"
+}

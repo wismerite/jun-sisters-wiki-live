@@ -15,8 +15,6 @@ honestly, may just stick with one branch.  workspaces in TF should allow deploym
 4. \o/ u did it (there's nothing else to do for setup rn)
 
 ## how to run
-### **NOTE:** pass env via "-var" cli option:
-`terraform -var"env=dev"`
 
 ## hosting outline
 
