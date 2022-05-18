@@ -26,7 +26,7 @@ variable "env" {
 #  backend is the DO space (s3-compatible object store) which should hold tf state
 #    - the spaces are created in jun-sisters-wiki-live/backend, separate from project infra
 variable "env_map" {
-  type = map(string)
+  type = map(map(string))
   default = {
     dev  = {
       long_name = "Development",
@@ -40,12 +40,6 @@ variable "env_map" {
     }
   }
 }
-
-variable "modules_version" {
-  type    = string
-  default = "v0.0.1"
-}
-
 
 ## unused for now, hoping interpolation in module sources are allowed
 variable "modules_version" {

@@ -1,11 +1,27 @@
-# jun-sisters-do
+# jun-sisters-wiki-live
+
+idk why i used "live", it was just in the book okay??
+
+## TODO list
+
+* set up gateway droplet
+  - ???
+* remote backend
+  - use spaces
+* move secrets to secrets store, for now secret-per-person
+  - hashicorp vault?
+* set up lb on k8s or something, check DO console it'll have instructions for it
+  - they want me to use kubectl for it
+* believe we'll need a volume for jswiki
+* deploy vanilla jswiki app to k8s cluster
+* attempt to restore the backups from the backups repo to vanilla jswiki
 
 ## digital ocean stuff for jun-sisters wiki 
 
 * documentation for the digital-ocean terraform provider: https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs
 
 ## git strategy
-honestly, may just stick with one branch.  workspaces in TF should allow deployments to a dev/staging and prod env
+one branch, main.  envs are separated by dirs, backend is in its own dir.  modules are pulled in from jun-sisters-wiki-modules repo based on tag (tags use semantiv versioning), which also uses one branch.
 
 ## dev env setup
 1. get a terraform binary somehow: https://www.terraform.io/downloads
@@ -37,15 +53,5 @@ export TF_VAR_do_token="$YOUR_DO_TOKEN"
 export TF_VAR_env="dev"
 ```
 
-## TODO list
 
-* set up gateway droplet
-* remote backend
-  - use postgres
-* move secrets to secrets store, for now secret-per-person
-  - hashicorp vault?
-
-* just using ubuntu for now, but other, container-oriented OS would probably be better
-* terragrunt?
-  - not for now
 
