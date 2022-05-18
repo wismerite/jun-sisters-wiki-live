@@ -19,16 +19,27 @@ variable "env" {
   default = "dev"
 }
 
-# DO is dumb and needs specific strings for a project's "environment"
+# DO is dumb and needs specific strings for a project's "environment", hence "long_name".
 #   however, the short env name defined in var.env should be used everywhere else
+#
+#  ip_range is the ip range used when creating the vpc to hold the resources
+#  backend is the DO space (s3-compatible object store) which should hold tf state
+#    - the spaces are created in jun-sisters-wiki-live/backend, separate from project infra
 variable "env_map" {
   type = map(string)
   default = {
-    dev  = "Development"
-    prod = "Production"
+    dev  = {
+      long_name = "Development",
+      ip_range = "10.0.1.0/26",
+      backend = "placeholder"
+    },
+    prod = {
+      long_name = "Production",
+      ip_range  = "10.0.2.0/26",
+      backend = "placeholder"
+    }
   }
 }
-
 
 variable "modules_version" {
   type    = string
