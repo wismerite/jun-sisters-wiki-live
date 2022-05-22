@@ -11,7 +11,7 @@ module "vpc" {
 
 module "k8s_cluster" {
   # depends on vpc, tags
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s?ref=v0.0.16"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s?ref=vk8s_vpc"
   k8s_name = "${var.name_prefix}-k8s"
   k8s_region = var.default_region
   k8s_vpc = module.vpc.id
