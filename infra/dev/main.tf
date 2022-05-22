@@ -1,9 +1,9 @@
 module "tags" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/tags?ref=v0.0.15"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/tags?ref=v0.0.16"
 }
 
 module "vpc" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/vpc?ref=v0.0.15"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/vpc?ref=v0.0.16"
   vpc_name = "${var.name_prefix}-vpc"
   vpc_region = var.default_region
   vpc_ip_range = var.env_map[var.env]["ip_range"]
@@ -11,18 +11,18 @@ module "vpc" {
 
 module "k8s_cluster" {
   # depends on vpc, tags
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s?ref=v0.0.15"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s?ref=v0.0.16"
   k8s_name = "${var.name_prefix}-k8s"
   k8s_region = var.default_region
   k8s_vpc = module.vpc.id
-  k8s_node_count = 1
-  k8s_node_size = "s-1vcpu-2gb"
+  k8s_node_count = 2
+  k8s_node_size = "s-2vcpu-4gb"
   k8s_tags = [module.tags.k8s_cluster_tag]
 }
 
 module "db_cluster" {
   # depends on vpc, k8s, tags
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//data-store?ref=v0.0.15"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//data-store?ref=v0.0.16"
 
   pg_name = "${var.name_prefix}-db"
   pg_region = var.default_region
@@ -36,7 +36,7 @@ module "db_cluster" {
 
 # module "firewalls" {
 #   # depends on vpc, k8s, tags
-#   source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/firewalls?ref=v0.0.15"
+#   source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/firewalls?ref=v0.0.16"
 
 #   pg_name = "${var.name_prefix}-db"
 #   pg_region = var.default_region
@@ -50,7 +50,7 @@ module "db_cluster" {
 
 module "project" {
   # depends on all other modules
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/project?ref=v0.0.15"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/project?ref=v0.0.16"
 
   project_name = var.name_prefix
   project_env = var.env_map[var.env]["long_name"]

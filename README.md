@@ -7,19 +7,25 @@ idk why i used "live", it was just in the book okay??
 ### hi-pri
 * set up gateway droplet
   - might just need the firewall here
-* remote backend
-  - use spaces
+* ~~remote backend~~
+  - ~~use spaces~~
 * ella thinks we'll need a volume for jswiki
-* deploy vanilla jswiki app to k8s cluster
+* migrate heroku jswiki app to k8s cluster
+  - database export/import
+  - make sure replicas is set to 1 at first, can bump to 2 afterwards
 * attempt to restore the backups from the backups repo to vanilla jswiki
+* set up lb on k8s or something, check DO console it'll have instructions for it
+  - they want me to use kubectl for it
+* ~~register jun-sisters.gay~~ - bought from namecheap by ella
+* monitoring 
+  - https://www.digitalocean.com/community/tutorials/how-to-set-up-digitalocean-kubernetes-cluster-monitoring-with-helm-and-prometheus-operator
 
 ### low-pri
 * move secrets to secrets store, for now secret-per-person
   - hashicorp vault?
   - sounds like work
-* set up lb on k8s or something, check DO console it'll have instructions for it
-  - they want me to use kubectl for it
-  - wont need this for 1-node kube cluster probably
+* linters
+
 
 ## digital ocean stuff for jun-sisters wiki 
 
@@ -28,12 +34,16 @@ idk why i used "live", it was just in the book okay??
 ## git strategy
 one branch, main.  envs are separated by dirs, backend is in its own dir.  modules are pulled in from jun-sisters-wiki-modules repo based on tag (tags use semantiv versioning), which also uses one branch.
 
+## binaries you'll want
+1. `kubectl` - official k8s cli tool. version must be v1.21.x, v1.22.x, or v1.23.x (cluster is running 1.22.x, kubectl must be within 1 minor version)
+2. doctl - digital ocean cli tool.  any version.  https://docs.digitalocean.com/reference/doctl/how-to/install/
+3. terraform - duh. https://www.terraform.io/downloads
+
 ## dev env setup
-1. get a terraform binary somehow: https://www.terraform.io/downloads
-2. suggested to move terraform binary into path (`~/.local/bin` is good, may need to make it first: `mkdir ~/.local/bin`)
-2. clone this repo
-3. set up a digital ocean personal access token as an env var (talk to ella to get access or a token or whatever, she's not sure how she wants to handle that yet): 
+1. clone this repo
+2. set up a digital ocean personal access token as an env var (talk to ella to get access or a token or whatever, she's not sure how she wants to handle that yet): 
   `export TF_VAR_do_token="bleep"`
+3. get a Spaces access key and secret from ella, put those in env vars "DO_SPACES_ACCESS_KEY" and "DO_SPACES_SECRET_KEY" respectively
 4. \o/ u did it (there's nothing else to do for setup rn)
 
 ## how to run
@@ -41,10 +51,14 @@ cd to the env of your choice, run init, plan, apply:
 
 ```
 cd infra/dev
-terraform init
+./tf_init.sh
 terraform plan
 terraform apply
 ```
+
+## tf_init.sh
+this is a small wrapper to allow us to pass in secrets from
+environment variables instead of commiting them into a git repository (very bad!!)
 
 ## how to update modules
 go to (jun-sisters-wiki-modules)[https://github.com/wismerite/jun-sisters-wiki-modules], clone it, and when you make any changes make sure to add an annotated tag to your commit and then open a pr.  once it's merged, you can submit a PR here too to update the source paths in main.tf for the env you want to modify to point to the correct module version.
