@@ -5,27 +5,34 @@ idk why i used "live", it was just in the book okay??
 ## TODO list
 
 ### hi-pri
-* ~~ set up gateway droplet~~ 
-  - ~~might just need the firewall here~~
-  - ended up using an lb instead
-* ~~remote backend~~
-  - ~~use spaces~~
+
 * move jswiki and nginx helm stuff into terraform
 * move k8s secret and ingress rules into terraform
 * migrate heroku jswiki app to k8s cluster
   - database export/import
   - make sure replicas is set to 1 at first, can bump to 2 afterwards
-* attempt to restore the backups from the backups repo to vanilla jswiki
+* monitoring 
+  - https://www.digitalocean.com/community/tutorials/how-to-set-up-digitalocean-kubernetes-cluster-monitoring-with-helm-and-prometheus-operator
+* set up SSL/TLS for site
+  - passthrough to app
+* review firewall configurations, disable public access on all resources possible
 * ~~set up lb on k8s or something, check DO console it'll have instructions for it~~
   - ~~they want me to use kubectl for it~~
 * ~~register jun-sisters.gay~~ - bought from namecheap by ella
-* monitoring 
-  - https://www.digitalocean.com/community/tutorials/how-to-set-up-digitalocean-kubernetes-cluster-monitoring-with-helm-and-prometheus-operator
+* ~~set up wiki admin email account~~
+* ~~ set up gateway droplet~~ 
+  - ~~might just need the firewall here~~
+  - ended up using an lb instead
+* ~~remote backend~~
+  - ~~use spaces~~
+* ~~get vanilla jswiki working on DO cluster~~
+
 
 ### low-pri
 * move secrets to secrets store, for now secret-per-person
   - hashicorp vault?
   - sounds like work
+  - http://external-secrets.io/v0.5.2/
 * linters
 
 
