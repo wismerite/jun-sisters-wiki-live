@@ -1,9 +1,9 @@
 module "tags" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/tags?ref=v0.0.16"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/tags?ref=v0.0.17"
 }
 
 module "vpc" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/vpc?ref=v0.0.16"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/vpc?ref=v0.0.17"
   vpc_name = "${var.name_prefix}-vpc"
   vpc_region = var.default_region
   vpc_ip_range = var.env_map[var.env]["ip_range"]
@@ -11,7 +11,7 @@ module "vpc" {
 
 module "k8s_cluster" {
   # depends on vpc, tags
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s?ref=vk8s_vpc"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster?ref=v0.0.17"
   k8s_name = "${var.name_prefix}-k8s"
   k8s_region = var.default_region
   k8s_vpc = module.vpc.id
@@ -22,7 +22,7 @@ module "k8s_cluster" {
 
 module "db_cluster" {
   # depends on vpc, k8s, tags
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//data-store?ref=v0.0.16"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//data-store?ref=vdb_cert"
 
   pg_name = "${var.name_prefix}-db"
   pg_region = var.default_region
@@ -32,11 +32,12 @@ module "db_cluster" {
   pg_tags = [module.tags.pg_cluster_tag]
   pg_wiki_db_name = "${var.name_prefix}-jswiki"
   k8s_cluster_id = module.k8s_cluster.id
+  vpc_ip_range = var.env_map[var.env]["ip_range"]
 }
 
 # module "firewalls" {
 #   # depends on vpc, k8s, tags
-#   source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/firewalls?ref=v0.0.16"
+#   source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/firewalls?ref=v0.0.17"
 
 #   pg_name = "${var.name_prefix}-db"
 #   pg_region = var.default_region
@@ -49,8 +50,8 @@ module "db_cluster" {
 # }
 
 module "project" {
-  # depends on all other modules
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/project?ref=v0.0.16"
+  # depends on all other DO resources
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/project?ref=v0.0.17"
 
   project_name = var.name_prefix
   project_env = var.env_map[var.env]["long_name"]
@@ -58,4 +59,28 @@ module "project" {
     module.db_cluster.urn,
     module.k8s_cluster.urn
   ]
+}
+
+module "k8s_ingress" {
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster_objects/ingress?ref=v0.0.17"
+
+}
+
+module "chart_nginx" {
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/nginx?ref=v0.0.17"
+
+  lb_cpu = "100m"
+  lb_memory = "90Mi"
+}
+
+module "chart_wiki" {
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/wiki?ref=v0.0.17"
+
+  replicas = 1
+  db_private_uri = db_cluster.private_uri
+  db_port = db_cluster.port
+  db = db_cluster.db
+  db_username = db_cluster.username
+  db_password = db_cluster.password
+  db_ca = db_cluster.ca
 }

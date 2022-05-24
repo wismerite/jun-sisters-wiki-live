@@ -7,15 +7,20 @@ idk why i used "live", it was just in the book okay??
 ### hi-pri
 
 * move jswiki and nginx helm stuff into terraform
+  - mostly done, just need to wire up in -live and test
 * move k8s secret and ingress rules into terraform
+  - secret is mostly done, just need to wire up in -live and test
+  - ingress isn't done yet at all
+* move DNS from namecheap to DO, manage w/ terraform
+* set up SSL/TLS for site
+  - passthrough to app
+* review firewall configurations, disable public access on all resources except lb
+* monitoring 
+  - https://www.digitalocean.com/community/tutorials/how-to-set-up-digitalocean-kubernetes-cluster-monitoring-with-helm-and-prometheus-operator
 * migrate heroku jswiki app to k8s cluster
   - database export/import
   - make sure replicas is set to 1 at first, can bump to 2 afterwards
-* monitoring 
-  - https://www.digitalocean.com/community/tutorials/how-to-set-up-digitalocean-kubernetes-cluster-monitoring-with-helm-and-prometheus-operator
-* set up SSL/TLS for site
-  - passthrough to app
-* review firewall configurations, disable public access on all resources possible
+* ~~set up kubernetes provider in -modules~~
 * ~~set up lb on k8s or something, check DO console it'll have instructions for it~~
   - ~~they want me to use kubectl for it~~
 * ~~register jun-sisters.gay~~ - bought from namecheap by ella

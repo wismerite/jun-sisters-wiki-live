@@ -24,7 +24,8 @@ variable "env" {
 #
 #  ip_range is the ip range used when creating the vpc to hold the resources
 #  backend is the DO space (s3-compatible object store) which should hold tf state
-#    - the spaces are created in jun-sisters-wiki-live/backend, separate from project infra
+#    - the spaces are created manually cause w/e
+#  different IP ranges for different envs are provided simply for easier differentiation by humans
 variable "env_map" {
   type = map(map(string))
   default = {
@@ -41,13 +42,25 @@ variable "env_map" {
   }
 }
 
-## unused for now, hoping interpolation in module sources are allowed
-variable "modules_version" {
-  type    = string
-  default = "v0.0.1"
+## app configuration vars
+# putting this here so it can easily be referenced by separate modules
+variable "db_secret_name" {
+  type = string
+  default = "postgres"
 }
 
-variable "modules_location" {
-  type = string
-  default = "git@github.com:wismerite/jun-sisters-wiki-modules.git"
-}
+
+## unused for now, hoping interpolation in module sources allowed
+## UPDATE: sadly, interpolation in module sources is not allowed u_u
+##         potentially available in terragrunt, but challenging with external modules
+# variable "modules_version" {
+#   type    = string
+#   default = "v0.0.1"
+# }
+
+# variable "modules_location" {
+#   type = string
+#   default = "git@github.com:wismerite/jun-sisters-wiki-modules.git"
+# }
+
+
