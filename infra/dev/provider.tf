@@ -33,19 +33,19 @@ provider "digitalocean" {
 # token here may expire for k8s and helm, need to figure out rotation at some point
 # potential example here: https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs#exec-plugins
 provider "kubernetes" {
-  host             = k8s_cluster.endpoint
-  token            = k8s_cluster.token
+  host             = module.k8s_cluster.endpoint
+  token            = module.k8s_cluster.token
   cluster_ca_certificate = base64decode(
-    k8s_cluster.cluster_ca_certificate
+    module.k8s_cluster.ca_certificate
   )
 }
 
 provider "helm" {
-  kubernetes = {
-    host             = k8s_cluster.endpoint
-    token            = k8s_cluster.token
+  kubernetes {
+    host             = module.k8s_cluster.endpoint
+    token            = module.k8s_cluster.token
     cluster_ca_certificate = base64decode(
-      k8s_cluster.cluster_ca_certificate
+      module.k8s_cluster.ca_certificate
     )
   }
 }

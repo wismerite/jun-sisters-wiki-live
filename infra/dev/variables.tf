@@ -19,6 +19,17 @@ variable "env" {
   default = "dev"
 }
 
+variable "email" {
+  type = string
+  description = "wiki admin email for use in a few places"
+  default = "jun.sisters.wiki@gmail.com"
+}
+
+variable "db_pw_secret_name" {
+  default = "postgres-pw"
+  type = string
+}
+
 # DO is dumb and needs specific strings for a project's "environment", hence "long_name".
 #   however, the short env name defined in var.env should be used everywhere else
 #
