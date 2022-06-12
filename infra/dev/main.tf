@@ -1,9 +1,9 @@
 module "tags" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/tags?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/tags?ref=v0.0.39"
 }
 
 module "vpc" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/vpc?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/vpc?ref=v0.0.39"
   vpc_name = "${var.name_prefix}-vpc"
   vpc_region = var.default_region
   vpc_ip_range = var.env_map[var.env]["ip_range"]
@@ -11,7 +11,7 @@ module "vpc" {
 
 module "k8s_cluster" {
   # depends on vpc, tags
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster?ref=v0.0.39"
   k8s_name = "${var.name_prefix}-k8s"
   k8s_region = var.default_region
   k8s_vpc = module.vpc.id
@@ -22,7 +22,7 @@ module "k8s_cluster" {
 
 module "db_cluster" {
   # depends on vpc, k8s, tags
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//data-store?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//data-store?ref=v0.0.39"
 
   pg_name = "${var.name_prefix}-db"
   pg_region = var.default_region
@@ -37,7 +37,7 @@ module "db_cluster" {
 
 # module "firewalls" {
 #   # depends on vpc, k8s, tags
-#   source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/firewalls?ref=v0.0.29"
+#   source = "github.com/wismerite/jun-sisters-wiki-modules.git//network/firewalls?ref=v0.0.39"
 
 #   pg_name = "${var.name_prefix}-db"
 #   pg_region = var.default_region
@@ -51,7 +51,7 @@ module "db_cluster" {
 
 module "project" {
   # depends on all other DO resources
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/project?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//metadata/project?ref=v0.0.39"
 
   project_name = var.name_prefix
   project_env = var.env_map[var.env]["long_name"]
@@ -62,13 +62,13 @@ module "project" {
 }
 
 module "k8s_ingress" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster_objects/ingress?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster_objects/ingress?ref=v0.0.39"
   service_name = var.name_prefix
   service_fqdn = "wiki.jun-sisters.gay"
 }
 
 module "chart_nginx" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/nginx?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/nginx?ref=v0.0.39"
 
   lb_replicas = 2
   lb_cpu = "100m"
@@ -76,7 +76,7 @@ module "chart_nginx" {
 }
 
 module "chart_wiki" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/wiki?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/wiki?ref=v0.0.39"
   # doing depends_on here bc k8s secrets don't output their name,
   #  so an inherent dependency seems impossible for now
   depends_on = [
@@ -101,14 +101,14 @@ module "chart_wiki" {
 }
 
 module "chart_cert_manager" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/cert-manager?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/charts/cert-manager?ref=v0.0.39"
   
   service_name = var.name_prefix
   cert_email = var.email
 }
 
 module "k8s_secret_db_pw" {
-  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster_objects/secrets?ref=v0.0.29"
+  source = "github.com/wismerite/jun-sisters-wiki-modules.git//k8s/cluster_objects/secrets?ref=v0.0.39"
 
   db_pw = module.db_cluster.password
   db_pw_secret_name = var.db_pw_secret_name
