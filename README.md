@@ -20,6 +20,7 @@ idk why i used "live", it was just in the book okay??
 * migrate heroku jswiki app to k8s cluster
   - database export/import
   - make sure replicas is set to 1 at first, can bump to 2 afterwards
+* bastion droplet for db work
 * ~~set up kubernetes provider in -modules~~
 * ~~set up lb on k8s or something, check DO console it'll have instructions for it~~
   - ~~they want me to use kubectl for it~~
