@@ -13,18 +13,18 @@ idk why i used "live", it was just in the book okay??
 * manually create DO space for wiki backups and configure it as a storage target in admin panel
   - manual creation so it's not accidentally deleted along with the rest of the project if tf destroy gets run
 #### done
-~~* configure wiki permissions~~
+* ~~configure wiki permissions~~
   - groups: mods, discordmembers
   - permissions: 
     - mods can see/edit everything, minus some admin stuff
     - discordmembers can see/edit everything except scripts, anything user- or admin- related, and anything under /mods
     - guests can't do anything except read pages which ARENT under /members or /mods
-~~* set up generic group home pages~~
-~~* set up wiki discord authentication~~
-~~* enable http => https redirection for the wiki~~
-  - done in ingress with: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#server-side-https-enforcement-through-redirect
-~~* migrate heroku jswiki app to k8s cluster~~
-  - not done, just starting fresh on new wiki since there wasn't content on the old wiki anyway and it could be configured better
+* ~~set up generic group home pages~~
+* ~~set up wiki discord authentication~~
+* ~~enable http => https redirection for the wiki~~
+  - ~~done in ingress with: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#server-side-https-enforcement-through-redirect~~
+* ~~migrate heroku jswiki app to k8s cluster~~
+  - ~~not done, just starting fresh on new wiki since there wasn't content on the old wiki anyway and it could be configured better~~
 * ~~set up SSL/TLS for site~~
 * ~~move k8s secret and ingress rules into terraform~~
 * ~~move jswiki and nginx helm stuff into terraform~~
@@ -43,6 +43,7 @@ idk why i used "live", it was just in the book okay??
 
 ### low-pri
 #### todo
+* find way to interpolate module versions in their source strings
 * split out k8s certificate manifest from cert-manager chart tf module for easier deployments in the future from -live config
 * set wiki replicas to 2
   - need to find out if helm can set HA_ACTIVE environment variable to "true" first, or if setting replicas in helm config enables that automatically
