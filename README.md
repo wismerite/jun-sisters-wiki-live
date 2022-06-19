@@ -10,9 +10,10 @@ idk why i used "live", it was just in the book okay??
   - disable public ips on resources where possible, not sure if it's very configurable though.
 * monitoring 
   - https://www.digitalocean.com/community/tutorials/how-to-set-up-digitalocean-kubernetes-cluster-monitoring-with-helm-and-prometheus-operator
-* manually create DO space for wiki backups and configure it as a storage target in admin panel
-  - manual creation so it's not accidentally deleted along with the rest of the project if tf destroy gets run
+
 #### done
+* ~~manually create DO space for wiki backups and configure it as a storage target in admin panel~~
+  - ~~manual creation so it's not accidentally deleted along with the rest of the project if tf destroy gets run~~
 * ~~configure wiki permissions~~
   - groups: mods, discordmembers
   - permissions: 
